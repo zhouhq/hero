@@ -22,7 +22,6 @@ public class CreateBitmap {
 
         watiDeviceList(bridge);
         IDevice devices[] = bridge.getDevices();
-        //直接取第一个
         device = devices[0];
         try {
             long  t00= System.currentTimeMillis();
@@ -42,7 +41,6 @@ public class CreateBitmap {
     }
 
     /**
-     * 等待设备的连接发
      */
     private static void watiDeviceList(AndroidDebugBridge bridge) {
         long t = System.currentTimeMillis();
