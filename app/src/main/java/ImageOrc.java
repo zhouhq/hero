@@ -1,17 +1,13 @@
+
 import com.baidu.aip.ocr.AipOcr;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 
 public class ImageOrc {
     public static void main(String arg[]) {
-        new ImageOrc().ocrImage();
+        new ImageOrc().testOcrImage();
     }
 
     AipOcr aipOcr;
@@ -37,11 +33,13 @@ public class ImageOrc {
         options.put("probability", "true");
         JSONObject res = aipOcr.basicGeneral(data, options);
         String words[]=parseResult(res);
-        System.err.println("words"+words);
+        for(int i=0;i<words.length;i++) {
+            System.err.println("words" + words[i].toString());
+        }
         return words;
     }
 
-    public String[] ocrImage() {
+      String[] testOcrImage() {
         HashMap<String, String> options = new HashMap<String, String>();
         options.put("language_type", "CHN_ENG");
         options.put("detect_direction", "true");
@@ -50,11 +48,13 @@ public class ImageOrc {
         // 参数为本地图片二进制数组
 
         String image = "d:\\test.png";
-        byte[] file = readImageFile(image);
+        byte[] file = Utils.readImageFile(image);
         JSONObject res = aipOcr.basicGeneral(file, options);
 
         String words[]= parseResult(res);
-        System.err.println("words"+words);
+        for(int i=0;i<words.length;i++) {
+            System.err.println("words" + words[i].toString());
+        }
         return words;
     }
 
@@ -78,17 +78,5 @@ public class ImageOrc {
         return words;
     }
 
-    public byte[] readImageFile(String path) {
-        File f = new File(path);
-        try {
-            BufferedImage image = ImageIO.read(f);
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            boolean flag = ImageIO.write(image, "jpg", out);
-            byte[] b = out.toByteArray();
-            return b;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+
 }

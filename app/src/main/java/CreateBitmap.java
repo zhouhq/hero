@@ -1,3 +1,4 @@
+
 import com.android.ddmlib.*;
 
 import javax.imageio.ImageIO;
@@ -28,9 +29,10 @@ public class CreateBitmap {
             RawImage rawImage = device.getScreenshot();
             long  t01= System.currentTimeMillis();
             System.err.println("getScreenshot time=" + (t01 - t00));
+            String path ="d:\\temp.png";
             if (rawImage != null) {
-                saveImage(rawImage);
-                return rawImage.data;
+                saveImage(rawImage,path);
+                return Utils.readImageFile(path);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,7 +64,7 @@ public class CreateBitmap {
         System.err.println("watiDeviceList time=" + (c - t));
     }
 
-    private static void saveImage(RawImage rawImage) {
+    private static void saveImage(RawImage rawImage,String path) {
         BufferedImage image = null;
         image = new BufferedImage(rawImage.width, rawImage.height, BufferedImage.TYPE_INT_ARGB);
         int index = 0;
@@ -76,7 +78,7 @@ public class CreateBitmap {
             }
         }
         try {
-            ImageIO.write((RenderedImage) image, "PNG", new File("D:/temp.jpg"));
+            ImageIO.write((RenderedImage) image, "PNG", new File(path));
             System.err.println("save image succeed");
         } catch (IOException e) {
             e.printStackTrace();
